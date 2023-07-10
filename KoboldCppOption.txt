@@ -1,0 +1,1 @@
+--stream --smartcontext --contextsize 8192 --useclblas 0 0 --launch
