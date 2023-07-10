@@ -31,7 +31,7 @@ Chat contents are not sent to the Internet, so you can enjoy chatting freely.
 |--:|:--|
 |16GB|7B?|
 |32GB|7B, 13B, 30B?|
-|64GB|7b, 13b, 60B|
+|64GB|7b, 13b, 30B, 60B|
 
 # 投稿された設定で物語を生成する
 
