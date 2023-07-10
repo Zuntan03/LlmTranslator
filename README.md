@@ -37,10 +37,10 @@ Chat contents are not sent to the Internet, so you can enjoy chatting freely.
 
 1. [aetherroom.club](https://aetherroom.club/) をブラウザ翻訳しつつ、興味の有りそうな物語を探します。
 1. 物語を見つけたらタイトルをクリックし、URL 末尾の数値を覚えるか URL をコピーします。
-1. `KoboldCpp_*.bat` で KoboldCpp を起動し、`Scenarios` - `Import from aetherroom.club` で数値か URL を入力し、`Confirm` します。
+1. `KoboldCpp_*.bat` で KoboldCpp を起動し、`Scenarios` - `Import from aetherroom.club` で数値（`5536` など）か URL を入力し、`Confirm` します。
 1. **KoboldCpp の入力欄をクリックしてフォーカスしておきます。**
 1. `LlmTranslator.bat` で AIチャット翻訳を起動し、下の入力欄で `Enter` すると物語のイントロダクションが翻訳されます。
-1. 入力欄で `Space` `Enter` すると、物語の続きが生成されます。生成が終わったら入力欄がからの状態で `Enter` すると、生成された物語が翻訳されます。
+1. 入力欄で `Space` `Enter` すると、物語の続きが生成されます。生成が終わったら入力欄が空欄の状態で `Enter` すると、生成された物語が翻訳されます。
 1. 入力欄に物語の続きを入力して `Enter` すると、続きに沿った物語が生成され、生成後に空欄 `Enter` で翻訳されます。
 1. 物語の進行が気に入らない場合は `Ctrl+R` で再生成します。
 1. 上記を繰り返して物語を生成します。
