@@ -21,6 +21,7 @@ git clone https://github.com/Zuntan03/LlmTranslator
 robocopy .\LlmTranslator\ . /s /move
 
 call LlmTranslator\LlmTranslator-Install.bat
+call LlmTranslator\KoboldCpp-Install.bat
 start LlmTranslator\LlmTranslator-Run.bat
 
 popd
