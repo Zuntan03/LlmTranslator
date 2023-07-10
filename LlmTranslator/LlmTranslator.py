@@ -284,7 +284,9 @@ def activeteModeWindow():
             mode["detectWindowTitle"], condition=pywinctl.Re.CONTAINS
         )
         if len(windows) > 0:
-            return windows[0].activate(wait=True)
+            result = windows[0].activate(wait=True)
+            time.sleep(0.02)
+            return result
     return False
 
 
