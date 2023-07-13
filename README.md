@@ -25,7 +25,7 @@ Chat contents are not sent to the Internet, so you can enjoy chatting freely.
 - `KoboldCpp_*.bat` で KoboldCpp を立ち上げ、AIチャット翻訳といっしょに使用します。
 	- アンダーバー以降は言語モデルの名前です。  
 	名前に含まれる 7B、13B、30B などは言語モデルのサイズですので、メインメモリに合わせて選択してください。
-	- `KoboldCpp_Wizard-Vicuna-*.bat` シリーズが最初の取っ掛かりとして良いかもしれません。おすすめモデルがあったら教えてください。
+	- `KoboldCpp_Wizard-Vicuna-*.bat` シリーズの 13B が、取っ掛かりとして良いかもしれません。おすすめモデルがあったら教えてください。
 
 |メインメモリ|言語モデルサイズ|
 |--:|:--|
@@ -46,11 +46,6 @@ Chat contents are not sent to the Internet, so you can enjoy chatting freely.
 1. 上記を繰り返して物語を生成します。
 
 # 自分の設定で物語を生成する
-
-<!--
-KoboldCpp に詳しいわけではありませんので、間違っていたらお知らせください。
--->
-TODO:
 
 参考: [Kobold.cppで小説っぽいのを作る](https://w.atwiki.jp/localmlhub/pages/19.html)
 参考: [Memory, Author's Note and World Info](https://github.com/KoboldAI/KoboldAI-Client/wiki/Memory,-Author's-Note-and-World-Info)

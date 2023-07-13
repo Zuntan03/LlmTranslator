@@ -26,6 +26,8 @@ nmtDevice = config.get("general", "nmt_device", fallback="cuda")  # cuda, cpu
 nmtMaxLength = config.getint("general", "nmt_max_length", fallback=8192)
 m2mTest = config.getboolean("general", "m2m_test", fallback=False)
 
+sendRecvWithEnter = config.getboolean("ui", "send_recv_with_enter", fallback=True)
+sendKey = config.get("ui", "send_key", fallback="F1")
 recvKey = config.get("ui", "recv_key", fallback="F2")
 generateKey = config.get("ui", "generate_key", fallback="F3")
 deleteKey = config.get("ui", "delete_key", fallback="F4")
@@ -46,6 +48,8 @@ def saveConfig():
     config["general"]["nmt_device"] = nmtDevice
     config["general"]["nmt_max_length"] = str(nmtMaxLength)
     config["general"]["m2m_test"] = str(m2mTest)
+    config["ui"]["send_recv_with_enter"] = str(sendRecvWithEnter)
+    config["ui"]["send_key"] = sendKey
     config["ui"]["recv_key"] = recvKey
     config["ui"]["generate_key"] = generateKey
     config["ui"]["delete_key"] = deleteKey
@@ -354,7 +358,9 @@ lang = config.get("general", "lang", fallback=lang)
 # lang = "zh"  # Debug
 
 l10n = {
-    "title": f"LLM Translator [Input&Enter]Translate>LLM, [Empty&Enter|{recvKey}]LLM>Translate, [Shift+Enter]NewLine",
+    "title": f"LLM Translator [Input&Enter|{sendKey}]Translate>LLM, [Empty&Enter|{recvKey}]LLM>Translate, [Shift+Enter]NewLine"
+    if sendRecvWithEnter
+    else f"LLM Translator [{sendKey}]Translate>LLM, [{recvKey}]LLM>Translate",
     "llm": "LLM",
     "sendLlm": "Send",
     "recvLlm": "Receive",
@@ -376,7 +382,9 @@ l10n = {
 
 if lang == "ja":
     l10n = {
-        "title": "AIチャット翻訳 [入力&Enter]英訳してLLM, [空欄&Enter|F2]LLMから和訳, [Shift+Enter]改行",
+        "title": f"AIチャット翻訳 [入力&Enter|{sendKey}]英訳してLLM, [空欄&Enter|{recvKey}]LLMから和訳, [Shift+Enter]改行"
+        if sendRecvWithEnter
+        else f"AIチャット翻訳 [{sendKey}]英訳してLLM, [{recvKey}]LLMから和訳",
         "llm": "AIチャット",
         "sendLlm": "送信",
         "recvLlm": "受信",
@@ -489,8 +497,6 @@ def onSendLlmTranslate(mTxt):
         if len(enTxt) > 0:
             llmMessages.append(enTxt)
 
-        # TODO: SdWebUI連携
-
     else:
         mOutTxt.insert(tk.END, endWithNewline(l10n["llmNotFound"]))
         mOutTxt.see(tk.END)
@@ -527,8 +533,6 @@ def onRecvLlm():
     enOutTxt.insert(tk.END, endWithNewline(message))
     enOutTxt.see(tk.END)
 
-    # TODO: SdWebUI連携
-
     window.after(windowAfterTime, onEn2MTranslate, message)
 
 
@@ -542,7 +546,7 @@ def onLlm(funcName):
 
 
 def onInputTxtReturn(event):
-    if event.state == 0:
+    if sendRecvWithEnter and (event.state == 0):
         mTxt = inputTxt.get("1.0", "end-1c")
         if mTxt:
             onSendLlm()
@@ -550,6 +554,8 @@ def onInputTxtReturn(event):
             onRecvLlm()
         return "break"
 
+
+preMsgPrompt = ""
 
 # UI
 padX = 4
@@ -576,7 +582,9 @@ window.config(menu=menuBar)
 
 llmMenu = tk.Menu(window, tearoff=False)
 menuBar.add_cascade(label=l10n["llm"], menu=llmMenu)
-llmMenu.add_cascade(label=f"{l10n['sendLlm']} [Input&Enter]", command=onSendLlm)
+llmMenu.add_cascade(
+    label=f"{l10n['sendLlm']} [Input&Enterr|{sendKey}]", command=onSendLlm
+)
 llmMenu.add_cascade(
     label=f"{l10n['recvLlm']} [Empty&Enter|{recvKey}]", command=onRecvLlm
 )
@@ -694,6 +702,7 @@ inputTxt.pack(fill=tk.X, padx=padX * 2, pady=padY)
 inputTxt.bind("<Return>", onInputTxtReturn)
 inputTxt.bind("<Control-e>", lambda e: onM2En())
 inputTxt.bind("<Control-w>", lambda e: onEn2M())
+inputTxt.bind(f"<{sendKey}>", lambda e: onSendLlm())
 inputTxt.bind(f"<{recvKey}>", lambda e: onRecvLlm())
 inputTxt.bind(f"<{generateKey}>", lambda e: onLlm("generate"))
 inputTxt.bind(f"<{deleteKey}>", lambda e: onLlm("delete"))

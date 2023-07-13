@@ -1,5 +1,25 @@
 ﻿models = [
     (
+        "airoboros-7B-gpt4-1.4-GGML",
+        "airoboros-7b-gpt4-1.4.ggmlv3.q4_K_M.bin",
+    ),
+    (
+        "Airoboros-7B-GPT4-1-4-SuperHOT-8K-GGML",
+        "airoboros-7b-gpt4-1.4-superhot-8k.ggmlv3.q4_K_M.bin",
+    ),
+    (
+        "airoboros-13B-gpt4-1.4-GGML",
+        "airoboros-13b-gpt4-1.4.ggmlv3.q4_K_M.bin",
+    ),
+    (
+        "airoboros-33B-gpt4-1.4-GGML",
+        "airoboros-33b-gpt4-1.4.ggmlv3.q4_K_M.bin",
+    ),
+    (
+        "airoboros-33B-gpt4-1-4-SuperHOT-8K-GGML",
+        "airoboros-33b-gpt4-1.4-superhot-8k.ggmlv3.q4_K_M.bin",
+    ),
+    (
         "airoboros-65B-gpt4-1.2-GGML",
         "airoboros-65B-gpt4-1.2.ggmlv3.q4_K_M.bin",
     ),
@@ -49,17 +69,19 @@
     ),
 ]
 
-print()
 for model in models:
+    additionalOption = ""
+    if "SuperHOT" in model[0]:
+        additionalOption = " --linearrope"
     batScript = f"""@echo off
 pushd %~dp0KoboldCpp\\
+echo https://huggingface.co/TheBloke/{model[0]}/
 if not exist .\\{model[1]} (
-\techo https://huggingface.co/TheBloke/{model[0]}/
 \tcurl -LO https://huggingface.co/TheBloke/{model[0]}/resolve/main/{model[1]}
 )
 popd
 
-call %~dp0LlmTranslator\\KoboldCpp-Run.bat {model[1]}
+call %~dp0LlmTranslator\\KoboldCpp-Run.bat{additionalOption} {model[1]}
 """
     batFileName = f"KoboldCpp_{model[0]}.bat"
     with open(f"..\\{batFileName}", "w") as batFile:
